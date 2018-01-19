@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <base href="/"/>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title></title>
+
+    <link rel="stylesheet" type="text/css" href="/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/css/app.css">
+  </head>
+  <body>
+
+    <nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="" ui-sref="home">Invoice App</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li ui-sref-active="active"><a href="" ui-sref="products">Products</a></li>
+            <li ui-sref-active="active"><a href="" ui-sref="customers">Customers</a></li>
+            <li ui-sref-active="active"><a href="" ui-sref="invoices">Invoices</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <div class="container" ui-view></div> <!-- /container -->
+
+    <script type="text/javascript" src="/js/lib/jquery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script type="text/javascript" src="/bower_components/ng-table/dist/ng-table.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+    <script type="text/javascript" src="/bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script type="text/javascript" src="/bower_components/lodash/dist/lodash.js"></script>
+
+    <script type="text/javascript" src="/js/app/models/CustomerModel.js"></script>
+    <!--<script type="text/javascript" src="/js/app/models/InvoiceItemModel.js"></script>-->
+    <script type="text/javascript" src="/js/app/models/ProductModel.js"></script>
+    <script type="text/javascript" src="/js/app/models/InvoiceModel.js"></script>
+    <script type="text/javascript" src="/js/app/controllers/CustomerListCtrl.js"></script>
+    <script type="text/javascript" src="/js/app/controllers/CustomerEditCtrl.js"></script>
+    <script type="text/javascript" src="/js/app/controllers/ProductEditCtrl.js"></script>
+    <script type="text/javascript" src="/js/app/controllers/InvoiceEditCtrl.js"></script>
+    <script type="text/javascript" src="/js/app/controllers/ProductListCtrl.js"></script>
+    <script type="text/javascript" src="/js/app/controllers/InvoiceListCtrl.js"></script>
+    <script type="text/javascript" src="/js/app/app.js"></script>
+  </body>
+</html>

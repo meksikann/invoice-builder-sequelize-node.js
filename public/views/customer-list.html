@@ -1,0 +1,34 @@
+<div class="page-header">
+    <a href="" ui-sref="customerNew" class="btn btn-success pull-right">New customer</a>
+    <h1>
+        List of customers
+    </h1>
+</div>
+
+<div ng-if="tableParams">
+
+<table ng-table="tableParams" class="table table-bordered table-striped">
+    <tr ng-repeat="item in $data">
+        <td data-title="'#'">
+            <a href="" ui-sref="customerEdit({ id: item.id })">
+            {{item.name}}
+            </a>
+        </td>
+        <td width="150" data-title="'Address'">
+            {{item.address}}
+        </td>
+        <td width="150" data-title="'Phone'">
+            {{item.phone}}
+        </td>
+        <td width="20%" data-title="'Created Date'">
+            {{item.createdAt|date:'longDate'}}
+            {{item.createdAt|date:'mediumTime'}}
+        </td>
+        <td width="20%" data-title="'Last Update'">
+            {{item.updatedAt|date:'longDate'}}
+            {{item.updatedAt|date:'mediumTime'}}
+        </td>
+    </tr>
+</table>
+
+</div>

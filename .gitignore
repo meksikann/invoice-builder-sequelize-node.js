@@ -1,0 +1,6 @@
+.env
+uploads/*
+generated_images/*
+manny-templates/public/*.jpeg
+node_modules/*
+bower_components/*

@@ -1,0 +1,31 @@
+<div class="page-header">
+    <a href="" ui-sref="productNew" class="btn btn-success pull-right">New product</a>
+    <h1>
+        List of products
+    </h1>
+</div>
+
+<div ng-if="tableParams">
+
+<table ng-table="tableParams" class="table table-bordered table-striped">
+    <tr ng-repeat="item in $data">
+        <td data-title="'#'">
+            <a href="" ui-sref="productEdit({ id: item.id })">
+            {{item.name}}
+            </a>
+        </td>
+        <td width="150" data-title="'Price'">
+            {{item.price|currency}}
+        </td>
+        <td width="20%" data-title="'Created Date'">
+            {{item.createdAt|date:'longDate'}}
+            {{item.createdAt|date:'mediumTime'}}
+        </td>
+        <td width="20%" data-title="'Last Update'">
+            {{item.updatedAt|date:'longDate'}}
+            {{item.updatedAt|date:'mediumTime'}}
+        </td>
+    </tr>
+</table>
+
+</div>
