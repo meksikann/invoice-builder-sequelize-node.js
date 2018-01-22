@@ -18,7 +18,4 @@ app.use('/bower_components', express.static(path.join(__dirname, 'bower_componen
 
 routes(app);
 
-// Starting express server
-http.createServer(app).listen(app.get('port'), function () {
-    console.log('Express server listening on port ' + app.get('port'));
-});
+app.listen(app.get('port'),  () => { console.log('Listening on ' + app.get('port')) });

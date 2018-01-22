@@ -1,35 +1,61 @@
-<div class="page-header">
-    <h1>
-        New invoice
-        <span ng-if="item.id">#{{item.id}}</span>
-    </h1>
-</div>
-<div class="form-group">
-    <div class="control-label">
-        Customer:
+<div ng-init="onInit()">
+    <div class="page-header">
+        <h1>
+            Invoice
+            <span ng-if="item.id">#{{item.id}}</span>
+        </h1>
     </div>
-    <div>
-        <input type="text" class="form-control" ng-model="item.customer_id" ng-change="saveInvoice()"
-               ng-model-options="{ debounce: 200 }" required/>
+    <div class="alert alert-danger" ng-if="errorMesage">{{errorMesage}}
     </div>
-</div>
-<div class="form-group">
+    <div class="form-group">
+        <div class="control-label">
+            Customer:
+        </div>
+        <div>
+            <select class="form-control" id="sel1" ng-model="customerId"  ng-change="saveInvoice(item)">
+                <option value={{customer.id}} ng-repeat="customer in customers">{{customer.name}}</option>
+            </select>
+        </div>
+    </div>
+    <table class="table table-bordered">
+        <tbody>
+        <tr>
+            <td colspan="18">
+                <select class="form-control" id="sel2" ng-model="productId" placeholder="Choose product" >
+                    <option value="{{product.id}}" ng-repeat="product in products">{{product.name}}</option>
+                </select>
+            </td>
+            <td>
+                <button class="btn btn-primary" ng-disabled="!customerId || !productId" type="button" ng-click="addProduct(item.id, productId, 1)">+Add product</button>
+            </td>
+        </tr>
+        <!--product list ng-repeat-->
+        <tr ng-repeat="invoiceItem in invoiceItems">
+            <td colspan="10">
+               {{invoiceItem.name}} <div class="glyphicon glyphicon-trash" ng-click="removeInvoiceItem(item.id, invoiceItem.id)"></div>
+            </td>
+            <td colspan="8">
+                    <input type="number" min="0" class="form-control" ng-model="invoiceItem.quantity" ng-change="saveInvoiceItem(invoiceItem, item.id)"
+                           ng-model-options="{ debounce: 200 }"/>
+            </td>
+            <td colspan="2">$ {{invoiceItem.total_price}} </td>
+        </tr>
+        <!--discount-->
+        <tr>
+            <td colspan="18">
+                Discount: %
+            </td>
+            <td colspan="2">
+                <input type="number" min="0" class="form-control" ng-model="item.discount" ng-change="saveInvoice(item)"
+                       ng-model-options="{ debounce: 200 }"/>
 
-    <div class="control-label">
-        Discount:
-    </div>
-    <div>
-        <input type="number" min="0" class="form-control" ng-model="item.discount" ng-change="saveInvoice()"
-               ng-model-options="{ debounce: 200 }"/>
-    </div>
-</div>
+            </td>
+        </tr>
+        <!--total-->
+        <tr>
+            <td colspan="18">Total: ${{totalPrice}}</td>
+        </tr>
+        </tbody>
+    </table>
 
-<div class="form-group">
-    <div class="control-label">
-        Total:
-    </div>
-    <div>
-        <input type="number" min="0" class="form-control" ng-model="item.total" ng-change="saveInvoice()"
-               ng-model-options="{ debounce: 200 }"/>
-    </div>
 </div>

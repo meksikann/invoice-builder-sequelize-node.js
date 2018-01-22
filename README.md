@@ -1,7 +1,7 @@
 # Dependencies
 
 - sqlite3
-- node
+- node v.8.9
 - npm
 
 # Getting Started
