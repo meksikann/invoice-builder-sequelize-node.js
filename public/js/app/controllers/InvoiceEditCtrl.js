@@ -3,9 +3,9 @@ angular.module('app.ctrls.InvoiceEditCtrl', [
 ])
     .controller('InvoiceEditCtrl', InvoiceEditCtrl);
 
-InvoiceEditCtrl.$inject = ['$scope', 'item', 'InvoiceModel', 'invoiceService', 'invoiceItemService', '$log'];
+InvoiceEditCtrl.$inject = ['$scope', 'item', 'InvoiceModel', 'invoiceService', 'invoiceItemService'];
 
-function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItemService, $log) {
+function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItemService) {
 
     $scope.onInit = onInit;
     $scope.saveInvoice = saveInvoice;
@@ -23,7 +23,10 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
     let dataLoadSuccess;
     let generalProducts = [];
 
-
+    /**
+     * @name onInit
+     * @description component initialisation
+     */
     function onInit() {
         dataLoadSuccess = true;
 
@@ -58,6 +61,11 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
             });
     }
 
+    /**
+     * @name saveInvoice
+     * @param {object} invoice
+     * @description prepare data to save existing invoice or creates new one, with callbacks after Http req.
+     */
     function saveInvoice(invoice) {
         $scope.errorMesage = '';
 
@@ -68,24 +76,24 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
         if (invoice.id) {
             getTotalPrice();
 
-            invoiceService.saveInvoice(invoice.id, invoice.discount, Number($scope.customerId), $scope.totalPrice)
+            invoiceService.saveInvoice(invoice.id, invoice.discount, Number($scope.customerId), Number($scope.totalPrice))
                 .then(function (success) {
                     if (success.data.ok) {
                         $scope.item = success.data.content;
                         getTotalPrice();
                     } else {
-                        $scope.errorMesage = success.data.content;
+                        $scope.errorMesage = success.data;
                     }
                 }, function (error) {
                     alertError(error);
                 });
         } else {
-            invoiceService.createNewInvoice(invoice.discount, Number($scope.customerId), $scope.totalPrice)
+            invoiceService.createNewInvoice(invoice.discount, Number($scope.customerId), Number($scope.totalPrice))
                 .then(function (success) {
                     if (success.data.ok) {
                         $scope.item = success.data.content;
                     } else {
-                        $scope.errorMesage = success.data.content;
+                        $scope.errorMesage = success.data;
                     }
                 }, function (error) {
                     alertError(error);
@@ -93,6 +101,12 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
         }
     }
 
+    /**
+     * @name removeInvoiceItem
+     * @param {number} invoiceId
+     * @param {number} itemId
+     * @description removes item from db. With http callback to update scope
+     */
     function removeInvoiceItem(invoiceId, itemId) {
         invoiceItemService.removeCurrentItem(invoiceId, itemId)
             .then(function (success) {
@@ -101,7 +115,7 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
                         return item.id != success.data.content.id;
                     })
                 } else {
-                    $scope.errorMesage = success.data.content;
+                    $scope.errorMesage = success.data;
                 }
             }, function (error) {
                 alertError(error);
@@ -109,6 +123,12 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
 
     }
 
+    /**
+     * @name saveInvoiceItem
+     * @param {object} item
+     * @param {number} invoiceId
+     * @description save invoiceItem in db. With http callback to update scope
+     */
     function saveInvoiceItem(item, invoiceId) {
         $scope.errorMesage = '';
 
@@ -119,7 +139,7 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
 
                     getTotalPrice();
                 } else {
-                    $scope.errorMesage = success.data.content;
+                    $scope.errorMesage = success.data;
                 }
             }, function (error) {
                 alertError(error);
@@ -127,11 +147,21 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
 
     }
 
+    /**
+     * @name alertError
+     * @param {object} err
+     * @description shows error
+     */
     function alertError(err) {
         dataLoadSuccess = false;
         console.error('Response error', err.status, err.data);
     }
 
+    /**
+     * @name saveInvoiceItems
+     * @param {object} responce
+     * @description update scope with loaded items
+     */
     function saveInvoiceItems(responce) {
         if (angular.isArray(responce.data)) {
             $scope.invoiceItems = invoiceService.formatInvoiceItems(responce.data, generalProducts);
@@ -140,12 +170,22 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
         }
     }
 
+    /**
+     * @name saveCustomers
+     * @param {object} responce
+     * @description update scope with loaded customers
+     */
     function saveCustomers(responce) {
         if (angular.isArray(responce.data)) {
             $scope.customers = responce.data;
         }
     }
 
+    /**
+     * @name saveProducts
+     * @param {object} responce
+     * @description update scope with loaded products
+     */
     function saveProducts(responce) {
         if (angular.isArray(responce.data)) {
             $scope.products = responce.data;
@@ -153,10 +193,21 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
         }
     }
 
+    /**
+     * @name getTotalPrice
+     * @description updates total price scope value.
+     */
     function getTotalPrice() {
         $scope.totalPrice = invoiceService.getTotalInvoicePrice($scope.invoiceItems, $scope.item.discount);
     }
 
+    /**
+     * @name addProduct
+     * @param {number} id
+     * @param {number} productId
+     * @param {number} quantity
+     * @description  add invoiceItem to db and update scope
+     */
     function addProduct(id, productId, quantity) {
         $scope.errorMesage = '';
 
@@ -170,13 +221,19 @@ function InvoiceEditCtrl($scope, item, InvoiceModel, invoiceService, invoiceItem
                     getTotalPrice();
                     updateGeneralProductList($scope.invoiceItems, $scope.products);
                 } else {
-                    $scope.errorMesage = success.data.content;
+                    $scope.errorMesage = success.data;
                 }
             }, function (error) {
                 alertError(error);
             });
     }
 
+    /**
+     * @name updateGeneralProductList
+     * @param {array} invoiceItems
+     * @param {array} products
+     * @description filters product list ,which from products which are not used yet
+     */
     function updateGeneralProductList(invoiceItems, products) {
         $scope.products = invoiceService.getAwailableProductList(invoiceItems, products)
     }

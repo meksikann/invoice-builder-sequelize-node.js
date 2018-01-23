@@ -3,19 +3,20 @@ let Invoice = model.invoice;
 let _ = require("lodash");
 
 module.exports.updateInvoice = async function (req, res) {
-    //TODO: make data validation !!!!!!!!!!!!!!!!
+    let data = {
+        ok: false
+    };
 
-    let invoice = await Invoice.findById(req.params.invoice_id);
-    let data = {};
-
-    if(req.body.total < 1000){
+    try {
+        let invoice = await Invoice.findById(req.params.invoice_id);
         let updatedInvoice = await invoice.update(_.pick(req.body, ['customer_id', 'discount', 'total']));
-        data.ok = true;
-        data.content = updatedInvoice
-    } else {
-        data.ok = false;
-        data.content = 'Total price is too high';
-    }
 
-    res.json(data);
+        data.ok = true;
+        data.content = updatedInvoice;
+
+        res.json(data);
+    } catch (e) {
+        console.error(e);
+        res.json(data);
+    }
 };

@@ -6,6 +6,7 @@
     "body-parser": "1.15.0",
     "cors": "2.8.1",
     "express": "~4.13.4",
+    "express-validator": "^4.3.0",
     "lodash": "latest",
     "sequelize": "^3.20.0",
     "sqlite3": "^3.1.13"
