@@ -25,24 +25,24 @@
                     <option value="{{product.id}}" ng-repeat="product in products">{{product.name}}</option>
                 </select>
             </td>
-            <td>
-                <button class="btn btn-default" ng-disabled="!customerId || !productId" type="button"
-                        ng-click="addProduct(item.id, productId, 1)"><span class="glyphicon glyphicon-plus"></span>Add product
+            <td class="add-button">
+                <button class="btn btn-default " ng-disabled="!customerId || !productId" type="button"
+                        ng-click="addProduct(item.id, productId, 1)"><span class="glyphicon glyphicon-plus"></span> <b>Add product</b>
                 </button>
             </td>
         </tr>
         <!--product list ng-repeat-->
         <tr ng-repeat="invoiceItem in invoiceItems">
             <td colspan="4">
-                {{invoiceItem.name}}
+              <b>{{invoiceItem.name}}</b>
                 <div class="glyphicon glyphicon-trash text-danger" ng-click="removeInvoiceItem(item.id, invoiceItem.id)"></div>
             </td>
-            <td>
+            <td class="invoice-item-quantity">
                 <input type="number" min="0" class="form-control" ng-model="invoiceItem.quantity"
                        ng-change="saveInvoiceItem(invoiceItem, item.id)"
                        ng-model-options="{ debounce: 200 }"/>
             </td>
-            <td>$ {{invoiceItem.total_price}}</td>
+            <td class="text-right"><b>$ {{invoiceItem.total_price}}</b></td>
         </tr>
         <!--discount-->
         <tr>
@@ -53,7 +53,6 @@
                            ng-model-options="{ debounce: 200 }"/>
                     <span class="input-group-addon" id="basic-addon1">%</span>
                 </div>
-
             </td>
         </tr>
         <!--total-->
